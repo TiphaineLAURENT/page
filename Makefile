@@ -19,16 +19,28 @@ define BASH_FUNC_increment-version%%
 endef
 export BASH_FUNC_increment-version%%
 
-.SILENT:_assert-git-status
+.SILENT: _assert-git-status
 _assert-git-status:
 	[ `git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"` == "main" ] || (echo "Should be on main branch"; exit 1)
 	git diff --quiet --ignore-submodules HEAD 2>/dev/null; [ $$? -eq 0 ] || (echo "Should not be dirty"; exit 1)
 
+.SILENT: _deploy
+_deploy:
+	git add package.json
+	VERSION=`grep -oP '(?<="version": ")[^"]*' package.json 2>/dev/null`	\
+		&& git commit -m "Release $$VERSION" 								\
+		&& git tag $$VERSION 												\
+		&& git push	origin main												\
+		&& npm run deploy -- --tag $$VERSION --message $$VERSION --no-push
+
 release-patch: _assert-git-status
 	@increment-version 2
+	$(MAKE) -C _deploy
 
 release-minor: _assert-git-status
 	@increment-version 1
+	$(MAKE) -C _deploy
 
 release-major: _assert-git-status
 	@increment-version 0
+	$(MAKE) -C _deploy
