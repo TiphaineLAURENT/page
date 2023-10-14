@@ -19,14 +19,16 @@ define BASH_FUNC_increment-version%%
 endef
 export BASH_FUNC_increment-version%%
 
+.SILENT:_assert-git-status
 _assert-git-status:
-	
+	[ `git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"` == "main" ] || (echo "Should be on main branch"; exit 1)
+	git diff --quiet --ignore-submodules HEAD 2>/dev/null; [ $$? -eq 0 ] || (echo "Should not be dirty"; exit 1)
 
-release-patch:
+release-patch: _assert-git-status
 	@increment-version 2
 
-release-minor:
+release-minor: _assert-git-status
 	@increment-version 1
 
-release-major:
+release-major: _assert-git-status
 	@increment-version 0
