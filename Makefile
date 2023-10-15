@@ -45,3 +45,6 @@ release-minor: _assert-git-status
 release-major: _assert-git-status
 	@increment-version 0
 	$(MAKE) _deploy
+
+run:
+	npm run start
