@@ -31,7 +31,7 @@ _deploy:
 		&& git commit -m "Release $$VERSION" 								\
 		&& git tag $$VERSION 												\
 		&& git push	origin main												\
-		&& npm run deploy -- --tag $$VERSION --message $$VERSION --no-push
+		&& npm run deploy -- --tag $$VERSION --message $$VERSION
 
 release-patch: _assert-git-status
 	@increment-version 2
