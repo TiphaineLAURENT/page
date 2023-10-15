@@ -6,7 +6,9 @@
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "prettier",
+        "plugin:prettier/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -21,7 +23,8 @@
         "@typescript-eslint",
         "react-hooks",
         "import",
-        "typescript-sort-keys"
+        "typescript-sort-keys",
+        "prettier"
     ],
     "rules": {
         "strict": [
@@ -44,6 +47,8 @@
             "error",
             "never"
         ],
+        "max-len": ["error", { "code": 120 }],
+        "prettier/prettier": "error",
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/naming-convention": [
             "error",
@@ -96,7 +101,7 @@
         "import/newline-after-import": [
             "error",
             {
-                "count": 2
+                "count": 1
             }
         ],
         "react/jsx-curly-brace-presence": ["error", { "props": "always", "propElementValues": "always", "children": "never" }],
