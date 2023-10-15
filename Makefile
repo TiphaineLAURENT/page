@@ -35,12 +35,12 @@ _deploy:
 
 release-patch: _assert-git-status
 	@increment-version 2
-	$(MAKE) -C _deploy
+	$(MAKE) _deploy
 
 release-minor: _assert-git-status
 	@increment-version 1
-	$(MAKE) -C _deploy
+	$(MAKE) _deploy
 
 release-major: _assert-git-status
 	@increment-version 0
-	$(MAKE) -C _deploy
+	$(MAKE) _deploy
