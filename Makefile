@@ -26,7 +26,8 @@ _assert-git-status:
 
 .SILENT: _deploy
 _deploy:
-	git add package.json
+	npm install # Regenerate package-lock.json with updated version
+	git add package.json package-lock.json
 	VERSION=`grep -oP '(?<="version": ")[^"]*' package.json 2>/dev/null`	\
 		&& git commit -m "Release $$VERSION" 								\
 		&& git tag $$VERSION 												\
